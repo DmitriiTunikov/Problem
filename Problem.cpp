@@ -1,7 +1,20 @@
 #include "Problem.h"
 #include "ILog.h"
 
+#include <QString>
 #include <math.h>
+#include <string.h>
+
+#define REPORT(MSG) \
+    QString qmsg("[PROBLEM_IK6]: "); \
+    qmsg += QString(MSG); \
+    qmsg += "\n\tFile: "; \
+    qmsg += __FILE__; \
+    qmsg += "\n\tLine: "; \
+    qmsg += __LINE__; \
+    qmsg += "\n\tFunction: "; \
+    qmsg += __FUNCTION__; \
+    ILog::report(qmsg.toStdString().c_str())
 
 extern "C" {
     SHARED_EXPORT void * getBrocker()
@@ -14,12 +27,12 @@ ErrorEnum Problem::checkNullAndDimArgs(const IVector *args) const
 {
     if (args == NULL)
     {
-        ILog::report("Empty arguments");
+        REPORT("Empty arguments");
         return ERR_WRONG_ARG;
     }
     if (args->getDim() != m_argsDim)
     {
-        ILog::report("Dimensions mismatch");
+        REPORT("Dimensions mismatch");
         return ERR_DIMENSIONS_MISMATCH;
     }
     return ERR_OK;
@@ -29,7 +42,7 @@ ErrorEnum Problem::checkNullAndDimParams(const IVector *params) const
 {
     if (params != NULL)
     {
-        ILog::report("Params must be null");
+        REPORT("Params must be null");
         return ERR_DIMENSIONS_MISMATCH;
     }
     return ERR_OK;
@@ -83,7 +96,7 @@ int Problem::goalFunctionByParams(IVector const*  params, double& res) const
     }
     if (m_args == NULL)
     {
-        ILog::report("Must call setArgs()");
+        REPORT("Must call setArgs()");
         return ERR_WRONG_ARG;
     }
 
@@ -144,12 +157,12 @@ int Problem::derivativeGoalFunction(size_t order, size_t idx, DerivedType dr, do
     }
     if (dr == BY_PARAMS)
     {
-        ILog::report("Can't derivative by params");
+        REPORT("Can't derivative by params");
         return ERR_ANY_OTHER;
     }
     if (idx >= m_argsDim)
     {
-        ILog::report("Derivative idx is out of range");
+        REPORT("Derivative idx is out of range");
         return ERR_OUT_OF_RANGE;
     }
 
@@ -219,12 +232,12 @@ int Problem::derivativeGoalFunctionByArgs(size_t order, size_t idx, DerivedType 
     }
     if (dr == BY_PARAMS)
     {
-        ILog::report("Can't derivative by params");
+        REPORT("Can't derivative by params");
         return ERR_ANY_OTHER;
     }
     if (idx >= m_argsDim)
     {
-        ILog::report("Derivative idx is out of range");
+        REPORT("Derivative idx is out of range");
         return ERR_OUT_OF_RANGE;
     }
 
@@ -287,7 +300,7 @@ int Problem::derivativeGoalFunctionByArgs(size_t order, size_t idx, DerivedType 
 
 int Problem::derivativeGoalFunctionByParams(size_t order, size_t idx, DerivedType dr, double& value, IVector const* params) const
 {
-    ILog::report("Problem has no params");
+    REPORT("Problem has no params");
     return ERR_ANY_OTHER;
 }
 
@@ -308,7 +321,6 @@ Problem::Problem() :
     m_paramsDim(0), m_argsDim(2),
     m_params(NULL), m_args(NULL)
 {
-    ILog::init("Problem1.txt");
 }
 
 bool Problem::canCastTo(Type type) const
@@ -335,6 +347,5 @@ int Problem::release()
     {
         delete m_params;
     }
-    ILog::destroy();
     return ERR_OK;
 }
