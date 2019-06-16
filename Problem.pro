@@ -9,14 +9,20 @@ QT       -= gui
 TARGET = Problem
 TEMPLATE = lib
 
-DEFINES += PROBLEM_LIBRARY
+DEFINES += PROBLEM_LIBRARY \
+    SHARED_EXPORTS
 
-SOURCES += problem.cpp
+SOURCES += \
+    Problem.cpp
 
 HEADERS += \
-           SHARED_EXPORT.h \
+    error.h \
+    Problem.h \
     IProblem.h \
-    Problem.h
+    SHARED_EXPORT.h \
+    ILog.h \
+    IVector.h \
+    IBrocker.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN
@@ -37,7 +43,14 @@ unix:!symbian {
     INSTALLS += target
 }
 
+LIBS += \
+    "$$PWD/ILog.dll" \
+    "$$PWD/math.dll"
+
 QMAKE_CXXFLAGS += -std=gnu++0x
+
+
+
 
 
 
