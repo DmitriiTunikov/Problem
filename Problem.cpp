@@ -8,11 +8,11 @@
 #define REPORT(MSG) \
     QString qmsg("[PROBLEM_IK6]: "); \
     qmsg += QString(MSG); \
-    qmsg += "\n\tFile: "; \
+    qmsg += "\n\t\tFile: "; \
     qmsg += __FILE__; \
-    qmsg += "\n\tLine: "; \
-    qmsg += __LINE__; \
-    qmsg += "\n\tFunction: "; \
+    qmsg += "\n\t\tLine: "; \
+    qmsg += QString::number(__LINE__); \
+    qmsg += "\n\t\tFunction: "; \
     qmsg += __FUNCTION__; \
     ILog::report(qmsg.toStdString().c_str())
 
