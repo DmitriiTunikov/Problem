@@ -6,7 +6,7 @@
 #include <string.h>
 
 #define REPORT(MSG) \
-    QString qmsg("[PROBLEM_IK6]: "); \
+    QString qmsg("[PROBLEM_IK6]:  "); \
     qmsg += QString(MSG); \
     qmsg += "\n\t\tFile: "; \
     qmsg += __FILE__; \
