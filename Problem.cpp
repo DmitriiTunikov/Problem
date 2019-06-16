@@ -4,7 +4,7 @@
 #include <math.h>
 
 extern "C" {
-    IBrocker * getBrocker()
+    SHARED_EXPORT void * getBrocker()
     {
         return (IBrocker *)(new Problem());
     }
