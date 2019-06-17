@@ -341,14 +341,6 @@ void* Problem::getInterfaceImpl(Type type) const
 
 int Problem::release()
 {
-    if (m_args != NULL)
-    {
-        delete m_args;
-    }
-    if (m_params != NULL)
-    {
-        delete m_params;
-    }
-    m_args = m_params = NULL;
+    delete this;
     return ERR_OK;
 }
