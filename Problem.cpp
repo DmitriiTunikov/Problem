@@ -128,6 +128,7 @@ int Problem::setParams(IVector const* params)
     {
         return err;
     }
+    delete m_params;
     m_params = params->clone();
     return ERR_OK;
 }
@@ -139,6 +140,7 @@ int Problem::setArgs(IVector const* args)
     {
         return err;
     }
+    delete m_args;
     m_args = args->clone();
     return ERR_OK;
 }
@@ -347,5 +349,6 @@ int Problem::release()
     {
         delete m_params;
     }
+    m_args = m_params = NULL;
     return ERR_OK;
 }
